@@ -2,6 +2,11 @@
 # ^ A shebang isn't required, but allows a justfile to be executed
 #   like a script, with `./justfile test`, for example.
 
+default:
+    #!nu
+    let var = "Hello, world!"
+    echo $var
+
 alias t := test
 
 alias c := check

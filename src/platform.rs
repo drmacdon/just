@@ -7,14 +7,19 @@ impl PlatformInterface for Platform {
   fn make_shebang_command(
     path: &Path,
     working_directory: Option<&Path>,
-    _shebang: Shebang,
+    shebang: Shebang,
   ) -> Result<Command, OutputError> {
-    // shebang scripts can be executed directly on unix
-    let mut cmd = Command::new(path);
+    let mut cmd = Command::new(shebang.interpreter);
 
     if let Some(working_directory) = working_directory {
       cmd.current_dir(working_directory);
     }
+
+    if let Some(argument) = shebang.argument {
+      cmd.arg(argument);
+    }
+
+    cmd.arg(path);
 
     Ok(cmd)
   }
